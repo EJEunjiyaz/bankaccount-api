@@ -17,6 +17,11 @@ public class BankAccountRestController {
         this.repository = repository;
     }
 
+    @GetMapping("/customer/{customerId}")
+    public List<BankAccount> getAllCustomerId(@PathVariable int customerId) {
+        return repository.findByCustomerId(customerId);
+    }
+
     @GetMapping
     public List<BankAccount> getAll() {
         return repository.findAll();
@@ -43,6 +48,13 @@ public class BankAccountRestController {
         BankAccount record = repository.findById(id).get();
         record.setBalance(bankAccount.getBalance());
         repository.save(record);
+        return record;
+    }
+
+    @DeleteMapping("/{id}")
+    public BankAccount delete(@PathVariable int id) {
+        BankAccount record = repository.findById(id).get();
+        repository.deleteById(id);
         return record;
     }
 }
